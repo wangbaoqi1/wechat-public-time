@@ -1402,7 +1402,7 @@ export const sendMessage = async (templateIds, user, params, usePassage) => {
       console.log('6666666666688', '早安')
       templateId = templateIds['1'].id
     }
-    if (2 < new Date().getHours() && new Date().getHours() < 24) {
+    if (21 < new Date().getHours() && new Date().getHours() < 24) {
       console.log('6666666666688', '晚安')
       templateId = templateIds['3'].id
     }
