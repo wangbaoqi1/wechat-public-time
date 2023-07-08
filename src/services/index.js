@@ -1381,27 +1381,28 @@ export const sendMessage = async (templateIds, user, params, usePassage) => {
   let templateId
   if (new Date().getDay() > 0 && new Date().getDay() < 6) {
     console.log('6666666666666', user)
-    if (9 > new Date().getHours() > 0) {
+    if (9 > new Date().getHours()) {
       console.log('6666666666666', '早上好')
       templateId = templateIds['1'].id
     }
-    if (14 > new Date().getHours() > 10) {
+    if (14 > new Date().getHours() && new Date().getHours() > 10) {
       console.log('6666666666666', '中午好')
       templateId = templateIds['2'].id
     }
-    if (18 > new Date().getHours() > 16) {
+    if (18 > new Date().getHours() && new Date().getHours() > 16) {
       console.log('6666666666666', '下午好')
     }
-    if (24 > new Date().getHours() > 21) {
+    if (21 < new Date().getHours() && new Date().getHours() < 24) {
       console.log('6666666666666', '晚上好')
       templateId = templateIds['3'].id
     }
   } else {
-    if (11 > new Date().getHours() > 9) {
+    templateId = null
+    if (11 > new Date().getHours() && new Date().getHours() > 9) {
       console.log('6666666666688', '早安')
       templateId = templateIds['1'].id
     }
-    if (21 < new Date().getHours() < 24) {
+    if (2 < new Date().getHours() && new Date().getHours() < 24) {
       console.log('6666666666688', '晚安')
       templateId = templateIds['3'].id
     }
