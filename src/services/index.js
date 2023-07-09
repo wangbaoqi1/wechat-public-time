@@ -2,6 +2,7 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 import { JSDOM } from 'jsdom'
 import cloneDeep from 'lodash/cloneDeep.js'
+import moment from 'moment'
 import config from '../../config/index.js'
 import TEMPLATE_CONFIG from '../../config/template-config.js'
 import { DEFAULT_OUTPUT, RUN_TIME_STORAGE, TYPE_LIST } from '../store/index.js'
@@ -1376,32 +1377,36 @@ export const sendMessage = async (templateIds, user, params, usePassage) => {
   //   console.log('使用push-plus推送')
   //   return sendMessageByPushPlus(user, templateId, wxTemplateData)
   // }
-  console.log('使用微信测试号推送', new Date().getDay(), new Date().getHours())
+  const hours = moment().utcOffset(8).hours()
+  const day = moment().utcOffset(8).day()
+  console.log('使用微信测试号推送', hours, day + 8)
   let templateId
+
   if (new Date().getDay() > 0 && new Date().getDay() < 6) {
     console.log('6666666666666', user)
-    if (9 > new Date().getHours()) {
+
+    if (9 > hours) {
       console.log('6666666666666', '早上好')
       templateId = templateIds['1'].id
     }
-    if (14 > new Date().getHours() && new Date().getHours() > 10) {
+    if (14 > hours && hours > 10) {
       console.log('6666666666666', '中午好')
       templateId = templateIds['2'].id
     }
-    if (18 > new Date().getHours() && new Date().getHours() > 16) {
+    if (18 > hours && hours > 16) {
       console.log('6666666666666', '下午好')
     }
-    if (21 < new Date().getHours() && new Date().getHours() < 24) {
+    if (21 < hours && hours < 24) {
       console.log('6666666666666', '晚上好')
       templateId = templateIds['3'].id
     }
   } else {
     templateId = null
-    if (13 > new Date().getHours() && new Date().getHours() >= 9) {
+    if (13 > hours && hours >= 9) {
       console.log('6666666666688', '早安')
       templateId = templateIds['1'].id
     }
-    if (21 < new Date().getHours() && new Date().getHours() < 24) {
+    if (21 < hours && hours < 24) {
       console.log('6666666666688', '晚安')
       templateId = templateIds['2'].id
     }
