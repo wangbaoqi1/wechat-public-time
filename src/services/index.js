@@ -1377,7 +1377,7 @@ export const sendMessage = async (templateIds, user, params, usePassage) => {
   //   console.log('使用push-plus推送')
   //   return sendMessageByPushPlus(user, templateId, wxTemplateData)
   // }
-  console.log('使用微信测试号推送')
+  console.log('使用微信测试号推送', new Date().getDay(), new Date().getHours())
   let templateId
   if (new Date().getDay() > 0 && new Date().getDay() < 6) {
     console.log('6666666666666', user)
@@ -1398,13 +1398,13 @@ export const sendMessage = async (templateIds, user, params, usePassage) => {
     }
   } else {
     templateId = null
-    if (11 > new Date().getHours() && new Date().getHours() > 9) {
+    if (11 > new Date().getHours() && new Date().getHours() >= 9) {
       console.log('6666666666688', '早安')
       templateId = templateIds['1'].id
     }
     if (21 < new Date().getHours() && new Date().getHours() < 24) {
       console.log('6666666666688', '晚安')
-      templateId = templateIds['3'].id
+      templateId = templateIds['2'].id
     }
   }
   return sendMessageByWeChatTest(user, templateId, wxTemplateData)
