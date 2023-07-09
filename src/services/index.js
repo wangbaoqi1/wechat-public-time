@@ -1297,7 +1297,6 @@ const sendMessageByWeChatTest = async (user, templateId, wxTemplateData) => {
       success: false,
     }
   }
-
   const url = `https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=${accessToken}`
 
   const data = {
@@ -1398,7 +1397,7 @@ export const sendMessage = async (templateIds, user, params, usePassage) => {
     }
   } else {
     templateId = null
-    if (11 > new Date().getHours() && new Date().getHours() >= 9) {
+    if (13 > new Date().getHours() && new Date().getHours() >= 9) {
       console.log('6666666666688', '早安')
       templateId = templateIds['1'].id
     }
@@ -1407,7 +1406,32 @@ export const sendMessage = async (templateIds, user, params, usePassage) => {
       templateId = templateIds['2'].id
     }
   }
-  return sendMessageByWeChatTest(user, templateId, wxTemplateData)
+  let accessToken = null
+
+  if (RUN_TIME_STORAGE.accessToken) {
+    console.log('获取了相同的数据，读取缓存 >>> accessToken')
+    accessToken = RUN_TIME_STORAGE.accessToken
+  } else {
+    accessToken = await getAccessToken()
+    RUN_TIME_STORAGE.accessToken = accessToken
+  }
+
+  if (!accessToken) {
+    return {
+      name: user.name,
+      success: false,
+    }
+  }
+
+  const url1 = `https://api.weixin.qq.com/cgi-bin/user/get?access_token=${accessToken}`
+  const res1 = await axios.get(url1)
+  res1.data.data.openid.forEach((item) => {
+    sendMessageByWeChatTest(
+      { name: item, id: item },
+      templateId,
+      wxTemplateData
+    )
+  })
 }
 
 /**
@@ -1461,15 +1485,6 @@ export const sendMessageReply = async (
       RUN_TIME_STORAGE.pushNum = 1
     }
   }
-  resList.forEach((item) => {
-    if (item.success) {
-      successPostNum++
-      successPostIds.push(item.name)
-    } else {
-      failPostNum++
-      failPostIds.push(item.name)
-    }
-  })
 
   return {
     needPostNum,
