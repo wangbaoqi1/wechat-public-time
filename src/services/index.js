@@ -1129,151 +1129,6 @@ export const getCallbackTemplateParams = (messageReply) => {
   ]
 }
 
-// 组装openUrl
-const assembleOpenUrl = () => ''
-
-/**
- * 使用pushDeer
- * @param user
- * @param templateId
- * @param wxTemplateData
- * @returns {Promise<{success: boolean, name}>}
- */
-const sendMessageByPushDeer = async (user, templateId, wxTemplateData) => {
-  // 模板拼装
-  const modelData = model2Data(templateId, wxTemplateData, false, false)
-  if (!modelData) {
-    return {
-      name: user.name,
-      success: false,
-    }
-  }
-
-  const url = 'https://api2.pushdeer.com/message/push'
-
-  // 发送消息
-  const res = await axios
-    .post(
-      url,
-      {
-        pushkey: user.id,
-        text: modelData.title,
-        desp: modelData.desc,
-        type: 'markdown',
-      },
-      {
-        headers: {
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
-        },
-      }
-    )
-    .catch((err) => err)
-
-  if (res.data && res.data.code === 0) {
-    console.log(`${user.name}: 推送消息成功`)
-    return {
-      name: user.name,
-      success: true,
-    }
-  }
-  console.error(`${user.name}: 推送消息失败`, res)
-  return {
-    name: user.name,
-    success: false,
-  }
-}
-
-/**
- * 使用pushplus
- * @param user
- * @param templateId
- * @param wxTemplateData
- * @returns {Promise<{success: boolean, name}>}
- */
-const sendMessageByPushPlus = async (user, templateId, wxTemplateData) => {
-  // 模板拼装
-  const modelData = model2Data(templateId, wxTemplateData, false, false)
-  if (!modelData) {
-    return {
-      name: user.name,
-      success: false,
-    }
-  }
-
-  const url = 'http://www.pushplus.plus/send'
-  // 发送消息
-  const res = await axios
-    .post(
-      url,
-      {
-        token: user.id,
-        title: modelData.title,
-        content: modelData.desc,
-        template: 'markdown',
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-    .catch((err) => err)
-
-  if (res.data && res.data.code === 200) {
-    console.log(`${user.name}: 推送消息成功`)
-    return {
-      name: user.name,
-      success: true,
-    }
-  }
-  console.error(`${user.name}: 推送消息失败`, res)
-  return {
-    name: user.name,
-    success: false,
-  }
-}
-
-/**
- * 使用server-chan
- * @param user
- * @param templateId
- * @param wxTemplateData
- * @returns {Promise<{success: boolean, name}>}
- */
-const sendMessageByServerChan = async (user, templateId, wxTemplateData) => {
-  // 模板拼装
-  const modelData = model2Data(templateId, wxTemplateData, false, false)
-  if (!modelData) {
-    return {
-      name: user.name,
-      success: false,
-    }
-  }
-
-  const url = `https://sctapi.ftqq.com/${user.id}.send`
-  // 发送消息
-  const res = await axios
-    .post(url, {
-      title: modelData.title,
-      desp: modelData.desc,
-    })
-    .catch((err) => err)
-
-  if (res.data && res.data.code === 0) {
-    console.log(`${user.name}: 推送消息成功`)
-    return {
-      name: user.name,
-      success: true,
-    }
-  }
-  console.error(`${user.name}: 推送消息失败`, res)
-  return {
-    name: user.name,
-    success: false,
-  }
-}
-
 /**
  * 使用wechat-test
  * @param user
@@ -1365,18 +1220,6 @@ export const sendMessage = async (templateIds, user, params, usePassage) => {
   }
   console.log('params', wxTemplateData)
 
-  // if (usePassage === 'push-deer') {
-  //   console.log('使用push-deer推送')
-  //   return sendMessageByPushDeer(user, templateId, wxTemplateData)
-  // }
-  // if (usePassage === 'server-chan') {
-  //   console.log('使用server-chan推送')
-  //   return sendMessageByServerChan(user, templateId, wxTemplateData)
-  // }
-  // if (usePassage === 'push-plus') {
-  //   console.log('使用push-plus推送')
-  //   return sendMessageByPushPlus(user, templateId, wxTemplateData)
-  // }
   const hours = moment().utcOffset(8).hours()
   const day = moment().utcOffset(8).weekday()
   console.log('使用微信测试号推送', hours, day)
@@ -1406,7 +1249,7 @@ export const sendMessage = async (templateIds, user, params, usePassage) => {
       console.log('6666666666688', '早安')
       templateId = templateIds['1'].id
     }
-    if (3 < hours && hours < 24) {
+    if (21 < hours && hours < 24) {
       console.log('6666666666688', '晚安')
       templateId = templateIds['3'].id
     }

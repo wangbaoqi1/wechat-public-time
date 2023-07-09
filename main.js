@@ -7,7 +7,7 @@ import {
 } from './src/services/index.js'
 import { RUN_TIME_STORAGE } from './src/store/index.js'
 
-export default async function mainForProd() {
+export default async function main() {
   // 获取accessToken
   console.log('\n\n')
   console.log(dayjs().format('YYYY-MM-DD HH:mm:ss'))
@@ -59,21 +59,6 @@ export default async function mainForProd() {
   Object.keys(RUN_TIME_STORAGE).forEach((o) => {
     RUN_TIME_STORAGE[o] = null
   })
-}
-
-const main = () => {
-  // if (process.env.APP_MODE === 'params-log') {
-  //   mainForTest()
-  // } else if (process.env.APP_MODE === 'server') {
-  //   console.log('======【定时推送服务已启动, enjoying it】======')
-  //   console.log(`目前定时推送的配置为：【${cornTime}】`)
-  //   schedule.scheduleJob(cornTime, () => {
-  //     mainForProd()
-  //   })
-  // } else if (process.env.APP_MODE === 'prod') {
-  //   mainForProd()
-  // }
-  mainForProd()
 }
 
 main()
