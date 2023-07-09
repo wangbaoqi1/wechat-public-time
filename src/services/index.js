@@ -1378,11 +1378,11 @@ export const sendMessage = async (templateIds, user, params, usePassage) => {
   //   return sendMessageByPushPlus(user, templateId, wxTemplateData)
   // }
   const hours = moment().utcOffset(8).hours()
-  const day = moment().utcOffset(8).day()
-  console.log('使用微信测试号推送', hours, day + 8)
+  const day = moment().utcOffset(8).weekday()
+  console.log('使用微信测试号推送', hours, day)
   let templateId
 
-  if (new Date().getDay() > 0 && new Date().getDay() < 6) {
+  if (day > 0 && day < 6) {
     console.log('6666666666666', user)
 
     if (9 > hours) {
@@ -1406,7 +1406,7 @@ export const sendMessage = async (templateIds, user, params, usePassage) => {
       console.log('6666666666688', '早安')
       templateId = templateIds['1'].id
     }
-    if (21 < hours && hours < 24) {
+    if (3 < hours && hours < 24) {
       console.log('6666666666688', '晚安')
       templateId = templateIds['2'].id
     }
