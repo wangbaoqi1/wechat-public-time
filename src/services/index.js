@@ -1406,9 +1406,9 @@ export const sendMessage = async (templateIds, user, params, usePassage) => {
       console.log('6666666666688', '早安')
       templateId = templateIds['1'].id
     }
-    if (21 < hours && hours < 24) {
+    if (3 < hours && hours < 24) {
       console.log('6666666666688', '晚安')
-      templateId = templateIds['2'].id
+      templateId = templateIds['3'].id
     }
   }
   let accessToken = null
